@@ -4,7 +4,7 @@
 # Colores expresados en ordenación B G R
 
 # Fondo
-background 1.0 0.0 0.0
+background 0.0 0.0 0.0
 
 # Lista de vértices
 vertex 0.0 0.0
@@ -14,9 +14,9 @@ vertex 1.2 0.0
 
 # Puntos
 foreground 0.0 0.0 1.0
-point 0 1
-point 1 1
+point 0 10
+point 1 10
 foreground 0.0 1.0 0.0
-point 2 1
+point 2 10
 foreground 0.0 1.0 1.0
-point 3 1
+point 3 10

@@ -44,6 +44,10 @@ int main(int argc, char* argv[]) {
   // Sólo para ver, quitar al final
   char c;
 
+  // Variables afegides
+  char dd;
+  int t, num_p, d_x, d_y, grosor_int;
+
   if (argc < 2) {
     cerr << "Por favor, indica el fichero que debe renderizarse\n"; 
     exit(-1); 
@@ -89,6 +93,104 @@ int main(int argc, char* argv[]) {
 				pixels[y_pant * w * 3 + x_pant * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
 				pixels[y_pant * w * 3 + x_pant * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);		
 		  }
+
+		 /*
+		  *  Punt Cuadrat
+		  */
+
+		  if (objects[o].grosor > 1){
+
+			  dd = 'r';
+			  num_p = 1;
+			  t = 1;
+			  d_x = 0;
+			  d_y = 0;
+			  grosor_int = floor(objects[o].grosor);
+			  for (int k = 0; k <= grosor_int - 2; k++) {
+				  for (int j = 0; j <= 1; j++) {
+
+					  while (t > 0) {
+
+						  switch (dd) {
+						  case 'r':
+							  d_x = d_x + 1;
+							  d_y = d_y + 0;
+							  break;
+						  case 'l':
+							  d_x = d_x - 1;
+							  d_y = d_y + 0;
+							  break;
+						  case 'd':
+							  d_x = d_x + 0;
+							  d_y = d_y - 1;
+							  break;
+						  case 'u':
+							  d_x = d_x + 0;
+							  d_y = d_y + 1;
+							  break;
+						  default:
+							  d_x = 0;
+							  d_y = 0;
+							  break;
+						  } // Switch 
+
+						  t = t - 1;
+						  pixels[(y_pant + d_y) * w * 3 + (x_pant + d_x) * 3 + 0] = (unsigned char)(255.0 * objects[o].color[0]);
+						  pixels[(y_pant + d_y) * w * 3 + (x_pant + d_x) * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
+						  pixels[(y_pant + d_y) * w * 3 + (x_pant + d_x) * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);
+					  } // while 
+
+					  // Cambio de dirección
+					  if (dd == 'r'){
+						  dd = 'u';
+					  }
+					  else if (dd == 'l') {
+						  dd = 'd';
+					  }
+					  else if (dd == 'u') {
+						  dd = 'l';
+					  }
+					  else if (dd == 'd') {
+						  dd = 'r';
+					  }	// if 
+					  t = num_p;
+				  }// for
+				  num_p = num_p + 1;
+				  t = num_p;
+			  } // for 		
+			  for (int j = 0; j < grosor_int - 1; j++) {
+
+				  switch (dd) {
+				  case 'r':
+					  d_x = d_x + 1;
+					  d_y = d_y + 0;
+					  break;
+				  case 'l':
+					  d_x = d_x - 1;
+					  d_y = d_y + 0;
+					  break;
+				  case 'd':
+					  d_x = d_x + 0;
+					  d_y = d_y - 1;
+					  break;
+				  case 'u':
+					  d_x = d_x + 0;
+					  d_y = d_y + 1;
+					  break;
+				  default:
+					  d_x = 0;
+					  d_y = 0;
+					  break;
+				  } // Switch 
+
+				  pixels[(y_pant + d_y) * w * 3 + (x_pant + d_x) * 3 + 0] = (unsigned char)(255.0 * objects[o].color[0]);
+				  pixels[(y_pant + d_y) * w * 3 + (x_pant + d_x) * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
+				  pixels[(y_pant + d_y) * w * 3 + (x_pant + d_x) * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);
+			  } // for 
+
+
+		  }	//if 
+
 	  }
   }
 
