@@ -200,84 +200,209 @@ int main(int argc, char* argv[]) {
 	  if (objects[o].type == line){
 
 
-
 		  int x_pant0 = (int)(w * (objects[o].punto0[0] - x_min) / (x_max - x_min));
 		  int y_pant0 = (int)(h * (objects[o].punto0[1] - y_min) / (y_max - y_min));
 
 		  int x_pant1 = (int)(w * (objects[o].punto1[0] - x_min) / (x_max - x_min));
 		  int y_pant1 = (int)(h * (objects[o].punto1[1] - y_min) / (y_max - y_min));
 
-		  // Ens assegurem que un dels dos punts de la línea estiga dintre dels llimits
-		  if ( ((x_pant0 >= 0) && (y_pant0 >= 0) && (x_pant0 < w) && (y_pant0 < h)) || ( (x_pant1 >= 0) && (y_pant1 >= 0) && (x_pant1 < w) && (y_pant1 < h))) {
+		  grosor_int = floor(objects[o].grosor); //Grosor de la linea
 
-			  // Umbralitzem els punts que ixen fora dels llimits
+		  int x_pant0_original = x_pant0;
+		  if (x_pant0_original < 0) x_pant0_original = 0;
+		  if (x_pant0_original > w) x_pant0_original = w;
+		  int y_pant0_original = y_pant0;
+		  if (y_pant0_original < 0) y_pant0_original = 0;
+		  if (y_pant0_original > h) y_pant0_original = h;
+		  int x_pant1_original = x_pant1;
+		  if (x_pant1_original < 0) x_pant1_original = 0;
+		  if (x_pant1_original > w) x_pant1_original = w;
+		  int y_pant1_original = y_pant1;
+		  if (y_pant1_original < 0) y_pant1_original = 0;
+		  if (y_pant1_original > h) y_pant1_original = h;
 
-			  if (x_pant0 < 0) x_pant0 = 0;
-			  if (x_pant0 > w) x_pant0 = w;
-			  if (y_pant0 < 0) y_pant0 = 0;
-			  if (y_pant0 > h) y_pant0 = h;
-			  if (x_pant1 < 0) x_pant1 = 0;
-			  if (x_pant1 > w) x_pant1 = w;
-			  if (y_pant1 < 0) y_pant1 = 0;
-			  if (y_pant1 > h) y_pant1 = h;
+		  for (int icont = 1; icont <= grosor_int; icont++){
 
+			  // Ens assegurem que un dels dos punts de la línea estiga dintre dels llimits
+			  if (((x_pant0 >= 0) && (y_pant0 >= 0) && (x_pant0 < w) && (y_pant0 < h)) || ((x_pant1 >= 0) && (y_pant1 >= 0) && (x_pant1 < w) && (y_pant1 < h))) {
 
-		  int x_dif = abs(x_pant1 - x_pant0); // diferencia entre les coordenades x dels dos punts
+				  // Umbralitzem els punts que ixen fora dels llimits
 
-		  int y_dif = abs(y_pant1 - y_pant0); // diferencica entre les coordenades y dels dos punts 
-
-		  int Err;
-		  int step_x = 1;
-		  int step_y = 1;
-		  d_x = 0;
-		  d_y = 0;
-		  if (x_pant0 > x_pant1) {		  //Mirem quin punt està per davant, si es el primer punt, els pasos aniran cap arrere
-
-			  step_x = -1;
-		  }
-		  if (y_pant0 > y_pant1){           //Mirem quin punt està per dalt, si es el primer punt, els pasos aniran cap avall
-
-			  step_y = -1;
-		  }
-		  if (x_dif > y_dif) {              // Si la diferencia entre les x es més gran que en les y, hem d'acostar primerament les x...
-			  Err = x_dif / 2;
-			  while ((x_pant0 + d_x) != x_pant1){  // Mentre la linea no arribe al punt final, calculem més punts de la recta
-				  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 0] = (unsigned char)(255.0 * objects[o].color[0]);
-				  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
-				  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);
-
-				  Err = Err - y_dif;
-
-				  if (Err < 0){
-
-					  d_y = d_y + step_y;
-					  Err = Err + x_dif;
-				  } //if		
-
-				  d_x = d_x + step_x;
-			  } // while 	
-
-		  }
-		  else  {
-
-			  Err = y_dif / 2;
-			  while ((y_pant0 + d_y) != y_pant1){ // <-----
-				  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 0] = (unsigned char)(255.0 * objects[o].color[0]);
-				  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
-				  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);
-				  Err = Err - x_dif;
-
-				  if (Err < 0){
-					  d_x = d_x + step_x;
-					  Err = Err + y_dif;
-				  } //if		
-				  d_y = d_y + step_y;
-			  } // while 	
-		  }// if 
+				  if (x_pant0 < 0) x_pant0 = 0;
+				  if (x_pant0 > w) x_pant0 = w;
+				  if (y_pant0 < 0) y_pant0 = 0;
+				  if (y_pant0 > h) y_pant0 = h;
+				  if (x_pant1 < 0) x_pant1 = 0;
+				  if (x_pant1 > w) x_pant1 = w;
+				  if (y_pant1 < 0) y_pant1 = 0;
+				  if (y_pant1 > h) y_pant1 = h;
 
 
-	  }
+				  int x_dif = abs(x_pant1 - x_pant0); // diferencia entre les coordenades x dels dos punts
 
+				  int y_dif = abs(y_pant1 - y_pant0); // diferencica entre les coordenades y dels dos punts 
+
+				  int Err;
+				  int step_x = 1;
+				  int step_y = 1;
+				  d_x = 0;
+				  d_y = 0;
+				  if (x_pant0 > x_pant1) {		  //Mirem quin punt està per davant, si es el primer punt, els pasos aniran cap arrere
+
+					  step_x = -1;
+				  }
+				  if (y_pant0 > y_pant1){           //Mirem quin punt està per dalt, si es el primer punt, els pasos aniran cap avall
+
+					  step_y = -1;
+				  }
+				  if (x_dif > y_dif) {              // Si la diferencia entre les x es més gran que en les y, hem d'acostar primerament les x...
+					  Err = x_dif / 2;
+					  while ((x_pant0 + d_x) != x_pant1){  // Mentre la linea no arribe al punt final, calculem més punts de la recta
+						  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 0] = (unsigned char)(255.0 * objects[o].color[0]);
+						  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
+						  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);
+
+						  Err = Err - y_dif;
+
+						  if (Err < 0){
+
+							  d_y = d_y + step_y;
+							  Err = Err + x_dif;
+						  } //if		
+
+						  d_x = d_x + step_x;
+					  } // while 	
+
+				  }
+				  else  {
+
+					  Err = y_dif / 2;
+					  while ((y_pant0 + d_y) != y_pant1){ // <-----
+						  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 0] = (unsigned char)(255.0 * objects[o].color[0]);
+						  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
+						  pixels[(y_pant0 + d_y) * w * 3 + (x_pant0 + d_x) * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);
+						  Err = Err - x_dif;
+
+						  if (Err < 0){
+							  d_x = d_x + step_x;
+							  Err = Err + y_dif;
+						  } //if		
+						  d_y = d_y + step_y;
+					  } // while 	
+				  }// if 
+
+
+			  }// if llimits
+		  
+			  /*
+			  * Creem nous punts per a les linees adicionals que es pintaran per a crear el grosor 
+			  */
+			  if (icont % 2 == 0){ // Nombre Par
+				  
+				  if (y_pant0_original - y_pant1_original == 0){ // línea horitzontal
+					  y_pant0 = floor(y_pant0_original + (icont / 2));
+					  y_pant1 = floor(y_pant1_original + (icont / 2));
+					  					
+				  }
+				  else{
+
+					  x_pant0 = floor(x_pant0_original - (icont / 2));
+					  x_pant1 = floor(x_pant1_original - (icont / 2));
+
+					  if (x_pant0 - x_pant1 != 0){ // Linees diagonals
+						  if (((x_pant0 < x_pant1) && (y_pant0 > y_pant1)) || (((x_pant0 > x_pant1) && (y_pant0 < y_pant1)))){// /Diagonal de esquerra a dreta
+
+							  if (x_pant0 < 0 && x_pant1 < 0){
+								  x_pant0 = 0;
+								  x_pant1 = 0;
+							  }
+							  else{
+								  if (x_pant0 < 0){
+									  x_pant0 = 0;
+									  y_pant0 = y_pant0 - 1;
+								  }
+							  }
+							 
+
+						  }//if diagonal dreta a esquerra
+						  else {
+
+							  //Umbral especial
+							  if (x_pant0 < 0 && x_pant1 < 0){
+								  x_pant0 = 0;
+								  x_pant1 = 0;
+							  }
+							  else{
+								  if (x_pant0 < 0){
+									  x_pant0 = 0;
+									  y_pant0 = y_pant0 + 1;
+								  }
+							  }
+
+						  }//else
+
+					  } //if diagonals
+					  
+				  }
+			  
+			  }
+			  else{ // Nombre impar
+				  if (y_pant0_original - y_pant1_original == 0){ // línea horitzontal
+					  y_pant0 = floor(y_pant0_original - ((icont - 1) / 2));
+					  y_pant1 = floor(y_pant1_original - ((icont - 1) / 2));
+
+				  }
+				  else{
+					  
+					  x_pant0 = floor(x_pant0_original + ((icont - 1) / 2));
+					  x_pant1 = floor(x_pant1_original + ((icont - 1) / 2));
+
+
+					  if (x_pant0 - x_pant1 != 0){ // Linees diagonals
+						  if (((x_pant0 < x_pant1) && (y_pant0 > y_pant1)) || (((x_pant0 > x_pant1) && (y_pant0 < y_pant1)))){// /Diagonal de esquerra a dreta
+
+							  //Umbral especial
+							  if (x_pant0 > w){
+								 x_pant0 = w;
+								 x_pant1 = w;
+							  }
+							  else{
+								  if (x_pant1 > w){
+									  x_pant1 = w;
+									  y_pant1 = y_pant1 + 1;
+								  }
+							  }
+
+							  
+						  
+						  }//if /Diagonal de esquerra a dreta
+						  else { 
+							  
+							  //Umbral especial
+							  if (x_pant0 > w){
+								  x_pant0 = w;
+								  x_pant1 = w;
+							  }
+							  else{
+								  if (x_pant1 > w){
+									  x_pant1 = w;
+									  y_pant1 = y_pant1 - 1;
+								  }
+								  
+							  }
+
+
+
+						  }// else
+
+					  } //if diagonals
+				  }
+
+			  }
+			  
+		  
+		  }//for grosor
+		  
 	  }// if line
 
 
