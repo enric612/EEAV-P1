@@ -198,11 +198,28 @@ int main(int argc, char* argv[]) {
 	  }
 
 	  if (objects[o].type == line){
+
+
+
 		  int x_pant0 = (int)(w * (objects[o].punto0[0] - x_min) / (x_max - x_min));
 		  int y_pant0 = (int)(h * (objects[o].punto0[1] - y_min) / (y_max - y_min));
 
 		  int x_pant1 = (int)(w * (objects[o].punto1[0] - x_min) / (x_max - x_min));
 		  int y_pant1 = (int)(h * (objects[o].punto1[1] - y_min) / (y_max - y_min));
+
+		  // Ens assegurem que un dels dos punts de la línea estiga dintre dels llimits
+		  if ( ((x_pant0 >= 0) && (y_pant0 >= 0) && (x_pant0 < w) && (y_pant0 < h)) || ( (x_pant1 >= 0) && (y_pant1 >= 0) && (x_pant1 < w) && (y_pant1 < h))) {
+
+			  // Umbralitzem els punts que ixen fora dels llimits
+
+			  if (x_pant0 < 0) x_pant0 = 0;
+			  if (x_pant0 > w) x_pant0 = w;
+			  if (y_pant0 < 0) y_pant0 = 0;
+			  if (y_pant0 > h) y_pant0 = h;
+			  if (x_pant1 < 0) x_pant1 = 0;
+			  if (x_pant1 > w) x_pant1 = w;
+			  if (y_pant1 < 0) y_pant1 = 0;
+			  if (y_pant1 > h) y_pant1 = h;
 
 
 		  int x_dif = abs(x_pant1 - x_pant0); // diferencia entre les coordenades x dels dos punts
@@ -218,7 +235,7 @@ int main(int argc, char* argv[]) {
 
 			  step_x = -1;
 		  }
-		  if (y_pant0	> y_pant1){           //Mirem quin punt està per dalt, si es el primer punt, els pasos aniran cap avall
+		  if (y_pant0 > y_pant1){           //Mirem quin punt està per dalt, si es el primer punt, els pasos aniran cap avall
 
 			  step_y = -1;
 		  }
@@ -257,7 +274,11 @@ int main(int argc, char* argv[]) {
 				  d_y = d_y + step_y;
 			  } // while 	
 		  }// if 
+
+
 	  }
+
+	  }// if line
 
 
 

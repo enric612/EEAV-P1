@@ -11,7 +11,8 @@ vertex 0.0 0.0
 vertex 0.4 0.0
 vertex 0.8 0.0
 vertex 1.2 0.0
-vertex -0.5 0.5
+vertex -1.5 1.5
+vertex -2.5 0.0
 
 # Puntos
 foreground 0.0 0.0 1.0
@@ -29,3 +30,7 @@ foreground 0.0 0.0 1.0
 line 0 1 1
 foreground 1.0 0.0 1.0
 line 0 4 1
+foreground 1.0 0.5 1.0
+line 5 1 1
+foreground 1.0 0.0 1.0
+line 5 4 1
