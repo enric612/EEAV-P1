@@ -162,7 +162,7 @@ void readfile(const char* filename)
 
 							// primer punto
 							obj->punto0[0] = vertStack[(int)values[0]][0]; 
-							obj->punto1[1] = vertStack[(int)values[0]][1]; 
+							obj->punto0[1] = vertStack[(int)values[0]][1]; 
 
 							// Grosor
 							obj->grosor = values[1];
@@ -190,14 +190,14 @@ void readfile(const char* filename)
 
 							// primer punto
 							obj->punto0[0] = vertStack[(int)values[0]][0]; 
-							obj->punto1[1] = vertStack[(int)values[0]][1]; 
+							obj->punto0[1] = vertStack[(int)values[0]][1]; 
 
 							// segundo punto
-							obj->punto0[0] = vertStack[(int)values[1]][0]; 
+							obj->punto1[0] = vertStack[(int)values[1]][0]; 
 							obj->punto1[1] = vertStack[(int)values[1]][1]; 
 
 							// Grosor
-							obj->grosor = values[1];
+							obj->grosor = values[2];
 
                             // Color
                             for (i = 0; i < 3; i++) {
