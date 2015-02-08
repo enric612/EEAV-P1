@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 				pixels[y_pant * w * 3 + x_pant * 3 + 0] = (unsigned char)(255.0 * objects[o].color[0]);
 				pixels[y_pant * w * 3 + x_pant * 3 + 1] = (unsigned char)(255.0 * objects[o].color[1]);
 				pixels[y_pant * w * 3 + x_pant * 3 + 2] = (unsigned char)(255.0 * objects[o].color[2]);		
-		  }
+		  
 
 		 /*
 		  *  Punt Cuadrat
@@ -191,6 +191,7 @@ int main(int argc, char* argv[]) {
 
 		  }	//if 
 
+		}
 	  }
   }
 
